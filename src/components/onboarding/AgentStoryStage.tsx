@@ -13,19 +13,22 @@ import { useEffect, useMemo, useRef, useState } from "react";
  * Everything is CSS + a tiny state machine, so it stays cheap on mobile.
  */
 
-const PROMPT = "Build me a website, with images and a logo.";
+const PROMPT =
+  "Build my website, publish it, connect Stripe, launch a Facebook ad and reply to customers.";
 
 const TASKS = [
-  { label: "Plan the pages", meta: "structure" },
-  { label: "Write the code", meta: "react" },
-  { label: "Generate images", meta: "4 assets" },
+  { label: "Build & publish the site", meta: "live url" },
+  { label: "Connect Stripe payments", meta: "checkout" },
+  { label: "Launch a Facebook ad", meta: "creative" },
+  { label: "Reply to customers", meta: "inbox" },
 ];
 
 const OUTPUT = [
   "› opened the cloud computer",
-  "› coding hero + pricing…",
-  "› rendering 4 images…",
-  "✓ site is live — files ready",
+  "› site deployed → megsy.shop",
+  "› Stripe connected · first payment ready",
+  "› ad live · 3 replies sent",
+  "✓ all done — nothing left for you",
 ];
 
 const CSS = `
