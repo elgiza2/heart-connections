@@ -319,22 +319,20 @@ const DocsMock = () => {
 };
 
 const IMAGE_SHOTS = [
-  { label: "Nano Banana Pro", src: "/route-assets/showcase/img-1.webp" },
-  { label: "GPT-Image 2", src: "/route-assets/showcase/img-2.webp" },
-  { label: "Nano Banana 2", src: "/route-assets/showcase/img-3.webp" },
-  { label: "Gemini 3 Pro Image", src: "/route-assets/showcase/img-4.webp" },
-  { label: "Recraft V4", src: "/route-assets/showcase/img-5.webp" },
-  { label: "Ideogram 3", src: "/route-assets/showcase/img-6.webp" },
+  { label: "Nano Banana Pro", bg: "linear-gradient(135deg, rgba(255,196,140,.85), rgba(255,120,140,.5))" },
+  { label: "GPT-Image 2", bg: "linear-gradient(135deg, rgba(140,200,255,.8), rgba(90,120,255,.45))" },
+  { label: "Recraft V4", bg: "linear-gradient(135deg, rgba(190,255,210,.75), rgba(60,180,160,.45))" },
+  { label: "Ideogram 3", bg: "linear-gradient(135deg, rgba(220,180,255,.8), rgba(120,90,220,.45))" },
 ];
 
 const ImagesMock = () => {
-  const step = useSequence(6, 520);
+  const step = useSequence(4, 620);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       <div style={{ fontSize: 11.5, color: "rgba(255,255,255,.6)" }}>
-        Prompt · “cinematic 35mm, soft light” — 6 variations
+        Prompt · “cinematic 35mm, soft light”
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridAutoRows: "72px", gap: 8 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridAutoRows: "76px", gap: 8 }}>
         {IMAGE_SHOTS.map((s, i) => {
           const on = i < step;
           return (
@@ -343,63 +341,94 @@ const ImagesMock = () => {
               style={{
                 position: "relative",
                 borderRadius: 12,
-                background: "rgba(255,255,255,.06)",
-                border: "1px solid rgba(255,255,255,.12)",
+                background: s.bg,
+                border: "1px solid rgba(255,255,255,.16)",
                 overflow: "hidden",
-                opacity: on ? 1 : 0.25,
-                filter: "none",
+                opacity: on ? 1 : 0.28,
+                filter: on ? "none" : "blur(4px) saturate(.6)",
                 transform: on ? "scale(1)" : "scale(.96)",
-                transition: "opacity .45s ease, transform .45s cubic-bezier(.22,1,.36,1)",
+                transition: "opacity .5s ease, filter .5s ease, transform .5s cubic-bezier(.22,1,.36,1)",
               }}
             >
-              <img
-                src={s.src}
-                alt={s.label}
-                loading="lazy"
-                decoding="async"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
               {!on && <div className="sv-scan" />}
-
             </div>
           );
         })}
+      </div>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+        {IMAGE_SHOTS.map((s) => (
+          <span
+            key={s.label}
+            style={{
+              fontSize: 10.5,
+              color: "rgba(255,255,255,.72)",
+              padding: "4px 9px",
+              borderRadius: 999,
+              background: "rgba(255,255,255,.06)",
+              border: "1px solid rgba(255,255,255,.14)",
+            }}
+          >
+            {s.label}
+          </span>
+        ))}
       </div>
     </div>
   );
 };
 
-const VIDEO_SRC = "/route-assets/showcase/vid-1.mp4";
+const VIDEO_FRAMES = [
+  "linear-gradient(160deg, rgba(120,170,255,.7), rgba(40,60,140,.5))",
+  "linear-gradient(160deg, rgba(255,180,140,.7), rgba(150,60,80,.5))",
+  "linear-gradient(160deg, rgba(160,255,220,.7), rgba(30,110,110,.5))",
+];
 
 const VideoMock = () => {
+  const step = useSequence(3, 900);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       <div style={{ fontSize: 11.5, color: "rgba(255,255,255,.6)" }}>
         Prompt · “brand film, cinematic, 24fps”
       </div>
-      <div
-        style={{
-          position: "relative",
-          height: 132,
-          borderRadius: 16,
-          background: "rgba(255,255,255,.06)",
-          border: "1px solid rgba(255,255,255,.12)",
-          overflow: "hidden",
-        }}
-      >
-        <video
-          src={VIDEO_SRC}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-        />
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+        {VIDEO_FRAMES.map((bg, i) => (
+          <div
+            key={i}
+            style={{
+              position: "relative",
+              height: 74,
+              borderRadius: 12,
+              background: bg,
+              border: "1px solid rgba(255,255,255,.16)",
+              overflow: "hidden",
+              opacity: i < step ? 1 : 0.3,
+              transition: "opacity .5s ease",
+            }}
+          >
+            <span
+              style={{
+                position: "absolute",
+                left: 8,
+                bottom: 6,
+                fontSize: 10,
+                color: "rgba(255,255,255,.85)",
+              }}
+            >
+              {`0${i}:0${i * 4}`}
+            </span>
+          </div>
+        ))}
+      </div>
+      <div className="sv-row sv-video-row">
+        <i />
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10.5, color: "rgba(255,255,255,.6)" }}>
+        <span>Rendering scene {Math.min(step + 1, 3)} of 3</span>
+        <span>1080p · 24fps</span>
       </div>
     </div>
   );
 };
+
 
 
 
