@@ -8,6 +8,7 @@ import { Timer, ChevronRight, ChevronLeft, Check, Computer, FolderKanban, Hourgl
 import { BrandIcon, hasBrandIcon } from "@/components/chat/media/BrandIcon";
 import { RatingBadge } from "@/components/foundations/rating-badge";
 import ServicesStage from "./ServicesStage";
+import { getPlan, PLAN_MONTHLY_CREDITS } from "@/data/pricingData";
 import {
   MODEL_ROWS,
   type OnboardingModel,
