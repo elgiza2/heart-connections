@@ -617,7 +617,45 @@ function CountUp({ value, duration = 1400 }: { value: string; duration?: number 
 
 /* --------------------------------- pages --------------------------------- */
 
+/**
+ * Page — one full-screen onboarding slide.
+ * Content is measured and uniformly scaled down when it is taller than the
+ * available space, so no slide can ever spill over the dots / CTA at the
+ * bottom or get clipped at the top on small phones.
+ */
 function Page({ children }: { children: import("react").ReactNode }) {
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const innerRef = useRef<HTMLDivElement | null>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const box = boxRef.current;
+    const inner = innerRef.current;
+    if (!box || !inner) return;
+    let raf = 0;
+    const fit = () => {
+      raf = 0;
+      const avail = box.clientHeight;
+      const natural = inner.scrollHeight;
+      if (!avail || !natural) return;
+      const next = Math.min(1, Math.max(0.62, (avail - 4) / natural));
+      setScale((prev) => (Math.abs(prev - next) > 0.005 ? next : prev));
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(fit);
+    };
+    schedule();
+    const ro = new ResizeObserver(schedule);
+    ro.observe(inner);
+    ro.observe(box);
+    window.addEventListener("resize", schedule);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", schedule);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [children]);
+
   return (
     <section
       className="fs-page"
@@ -629,10 +667,30 @@ function Page({ children }: { children: import("react").ReactNode }) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: "72px 24px 152px",
+        padding: "56px 22px 150px",
       }}
     >
-      {children}
+      <div
+        ref={boxRef}
+        style={{
+          flex: 1,
+          minHeight: 0,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          ref={innerRef}
+          style={{
+            transform: scale < 1 ? `scale(${scale})` : undefined,
+            transformOrigin: "center center",
+            willChange: scale < 1 ? "transform" : undefined,
+          }}
+        >
+          {children}
+        </div>
+      </div>
     </section>
   );
 }
