@@ -640,7 +640,7 @@ function Page({ children }: { children: import("react").ReactNode }) {
 
 const PAGES = [
   <Page key="chat">
-    <Title heading="Megsy does the work, not just the talking." />
+    <Title heading="An AI agent with its own computer." />
     <MegsyServicesStage />
   </Page>,
   <Page key="services">
@@ -648,7 +648,7 @@ const PAGES = [
     <ServicesStage />
   </Page>,
   <Page key="pricing">
-    <Title heading="All tools & models for $5" />
+    <Title heading="Everything unlocked for $7" />
     <div
       className="fs-up fs-glass"
       style={{
@@ -662,6 +662,16 @@ const PAGES = [
       <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
         <span
           style={{
+            color: "rgba(255,255,255,0.45)",
+            fontSize: 22,
+            fontWeight: 500,
+            textDecoration: "line-through",
+          }}
+        >
+          $20
+        </span>
+        <span
+          style={{
             color: "#fff",
             fontSize: 56,
             fontWeight: 600,
@@ -669,20 +679,21 @@ const PAGES = [
             lineHeight: 1,
           }}
         >
-          $5
+          $7
         </span>
         <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 15, fontWeight: 500 }}>
           first month
         </span>
       </div>
       <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, lineHeight: 1.5, margin: 0 }}>
-        Get every AI model, agent and workflow in one subscription. No hidden fees, cancel anytime.
+        Megsy Pro for $7 your first month, then $20/month. Every model, every agent — cancel anytime.
       </p>
       <ListRows
         rows={[
-          { title: "All flagship models", meta: "GPT-5.6, Claude Opus 5, Gemini 3.6, Llama 4" },
-          { title: "40+ agents unlocked", meta: "Research, coder, images, video, slides" },
-          { title: "Full access for $5", meta: "No limits, no hidden fees, cancel anytime" },
+          { title: "Unlimited chat & images", meta: "Every flagship model, no daily caps" },
+          { title: "240 MC every month", meta: "Up to 40 premium videos + free unlimited models" },
+          { title: "Agents & Megsy Computer", meta: "Research, coder, slides, docs, background tasks" },
+          { title: "Yearly: $160 — 4 months free", meta: "Price locked for 12 months, cancel anytime" },
         ]}
       />
     </div>
