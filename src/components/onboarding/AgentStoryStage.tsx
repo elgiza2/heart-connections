@@ -128,7 +128,7 @@ export default function AgentStoryStage() {
     setOutLines(0);
 
     // 1. type the prompt
-    const typeSpeed = 42;
+    const typeSpeed = 26;
     for (let i = 1; i <= PROMPT.length; i++) t(() => setTyped(i), 260 + i * typeSpeed);
     const typedDone = 260 + PROMPT.length * typeSpeed;
 
@@ -220,7 +220,7 @@ export default function AgentStoryStage() {
           )}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 10, minHeight: 108 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 10, minHeight: 152 }}>
           {TASKS.map((task, i) => {
             const shown = i < taskCount;
             const done = i < doneTasks;
@@ -294,7 +294,7 @@ export default function AgentStoryStage() {
       {/* ── live output: text typed in front of the user ─────────────────── */}
       <div
         className="fs-up fs-solid"
-        style={{ animationDelay: "0.3s", borderRadius: 24, padding: "12px 14px", minHeight: 96 }}
+        style={{ animationDelay: "0.3s", borderRadius: 24, padding: "12px 14px", minHeight: 108 }}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {OUTPUT.slice(0, outLines).map((line, i) => (
