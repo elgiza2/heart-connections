@@ -765,54 +765,7 @@ const PAGES = [
   </Page>,
   <Page key="pricing">
     <Title heading="Everything unlocked for $7" />
-    <div
-      className="fs-up fs-glass"
-      style={{
-        borderRadius: 32,
-        padding: "28px 24px",
-        display: "flex",
-        flexDirection: "column",
-        gap: 20,
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-        <span
-          style={{
-            color: "rgba(255,255,255,0.45)",
-            fontSize: 22,
-            fontWeight: 500,
-            textDecoration: "line-through",
-          }}
-        >
-          $20
-        </span>
-        <span
-          style={{
-            color: "#fff",
-            fontSize: 56,
-            fontWeight: 600,
-            letterSpacing: "-0.04em",
-            lineHeight: 1,
-          }}
-        >
-          $7
-        </span>
-        <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 15, fontWeight: 500 }}>
-          first month
-        </span>
-      </div>
-      <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, lineHeight: 1.5, margin: 0 }}>
-        Megsy Pro for $7 your first month, then $20/month. Every model, every agent — cancel anytime.
-      </p>
-      <ListRows
-        rows={[
-          { title: "Unlimited chat & images", meta: "Every flagship model, no daily caps" },
-          { title: "240 MC every month", meta: "Up to 40 premium videos + free unlimited models" },
-          { title: "Agents & Megsy Computer", meta: "Research, coder, slides, docs, background tasks" },
-          { title: "Yearly: $160 — 4 months free", meta: "Price locked for 12 months, cancel anytime" },
-        ]}
-      />
-    </div>
+    <PricingCard />
   </Page>,
   <Page key="community">
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
