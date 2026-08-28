@@ -15,9 +15,8 @@ const loadMotionFeatures = () => import("framer-motion").then((m) => m.domMax);
 const __firstVisitWelcome = (() => {
   try {
     if (typeof window === "undefined") return false;
-    const p = window.location.pathname;
+    const p = window.location.pathname.replace(/\/+$/, "") || "/";
     if (p !== "/" && p !== "/index" && p !== "/chat") return false;
-    if (window.innerWidth >= 900) return false;
     if (localStorage.getItem("megsy_seen_welcome")) return false;
     localStorage.setItem("megsy_seen_welcome", "1");
     window.history.replaceState(window.history.state, "", "/welcome");
