@@ -28,6 +28,12 @@ const OUTPUT = [
   "✓ site is live — files ready",
 ];
 
+const ARTIFACTS = [
+  { label: "site.zip", tint: "rgba(143,240,187,0.18)", ring: "rgba(143,240,187,0.45)" },
+  { label: "logo.svg", tint: "rgba(255,182,208,0.18)", ring: "rgba(255,182,208,0.45)" },
+  { label: "4 images", tint: "rgba(147,197,253,0.18)", ring: "rgba(147,197,253,0.45)" },
+];
+
 const CSS = `
 @keyframes asWalk {
   0%   { transform: translateX(-8px); }
@@ -313,6 +319,29 @@ export default function AgentStoryStage() {
             <p style={{ margin: 0, fontSize: 12, color: "rgba(255,255,255,0.35)" }}>
               Megsy writes the work in front of you.
             </p>
+          )}
+
+          {outLines >= OUTPUT.length && (
+            <div style={{ display: "flex", gap: 6, marginTop: 4, flexWrap: "wrap" }}>
+              {ARTIFACTS.map((a, i) => (
+                <span
+                  key={a.label}
+                  className="as-pop"
+                  style={{
+                    animationDelay: `${i * 0.12}s`,
+                    fontSize: 10.5,
+                    fontWeight: 600,
+                    color: "#fff",
+                    padding: "4px 9px",
+                    borderRadius: 999,
+                    background: a.tint,
+                    border: `1px solid ${a.ring}`,
+                  }}
+                >
+                  {a.label}
+                </span>
+              ))}
+            </div>
           )}
         </div>
       </div>
