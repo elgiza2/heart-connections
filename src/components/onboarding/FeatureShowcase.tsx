@@ -293,7 +293,7 @@ const AGENT_STEPS = [
   { label: "Writing the final report", meta: "12 pages · with charts" },
 ];
 
-/** Live terminal-ish agent card: Megsy working on its own computer for hours. */
+/** Live agent card: Megsy working on its own computer for hours. */
 function AgentWorkingCard() {
   const [step, setStep] = useState(1);
   const [mins, setMins] = useState(74);
@@ -309,35 +309,64 @@ function AgentWorkingCard() {
 
   const hours = Math.floor(mins / 60);
   const elapsed = `${hours}h ${String(mins % 60).padStart(2, "0")}m running`;
+  const pct = Math.round((step / AGENT_STEPS.length) * 100);
 
   return (
     <div
-      className="fs-up fs-glass"
-      style={{ animationDelay: "0.14s", borderRadius: 28, padding: "18px 20px" }}
+      className="fs-up fs-solid"
+      style={{ animationDelay: "0.14s", borderRadius: 24, padding: 16 }}
     >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+      {/* header */}
+      <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+        <span
+          style={{
+            width: 30,
+            height: 30,
+            borderRadius: 10,
+            display: "grid",
+            placeItems: "center",
+            background: "rgba(255,255,255,0.12)",
+            border: "1px solid rgba(255,255,255,0.14)",
+            flexShrink: 0,
+          }}
+        >
+          <Computer size={16} color="#fff" strokeWidth={1.9} />
+        </span>
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <p style={{ color: "#fff", fontSize: 14.5, fontWeight: 600, lineHeight: 1.2 }}>
+            Megsy Agent
+          </p>
+          <p style={{ color: "rgba(255,255,255,0.62)", fontSize: 11.5, marginTop: 1 }}>
+            working on its own computer
+          </p>
+        </div>
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            fontSize: 11,
+            fontWeight: 600,
+            color: "#8ff0bb",
+            background: "rgba(110,231,160,0.12)",
+            border: "1px solid rgba(110,231,160,0.28)",
+            borderRadius: 999,
+            padding: "4px 9px",
+            flexShrink: 0,
+          }}
+        >
           <span
             className="fs-live-dot"
-            style={{ width: 8, height: 8, borderRadius: 999, background: "#6ee7a0" }}
+            style={{ width: 6, height: 6, borderRadius: 999, background: "#6ee7a0" }}
           />
-          <span style={{ color: "#fff", fontSize: 14, fontWeight: 600 }}>Megsy Agent</span>
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 500,
-              color: "rgba(255,255,255,0.65)",
-              border: "1px solid rgba(255,255,255,0.18)",
-              borderRadius: 999,
-              padding: "2px 8px",
-            }}
-          >
-            on its own computer
-          </span>
-        </div>
+          Live
+        </span>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 9, margin: "14px 0 14px" }}>
+      <div className="fs-divider" style={{ margin: "13px -16px 13px" }} />
+
+      {/* steps */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {AGENT_STEPS.map((s, i) => {
           const done = i < step - 1;
           const active = i === step - 1;
@@ -351,17 +380,27 @@ function AgentWorkingCard() {
                   borderRadius: 999,
                   display: "grid",
                   placeItems: "center",
-                  background: done ? "rgba(110,231,160,0.9)" : "transparent",
-                  border: done ? "none" : "1.5px solid rgba(255,255,255,0.35)",
+                  background: done ? "#6ee7a0" : "transparent",
+                  border: done
+                    ? "none"
+                    : active
+                      ? "1.5px solid rgba(255,255,255,0.8)"
+                      : "1.5px solid rgba(255,255,255,0.22)",
                 }}
               >
-                {done && <Check size={11} color="#0a2a18" strokeWidth={3} />}
+                {done && <Check size={10} color="#08281a" strokeWidth={3.4} />}
+                {active && (
+                  <span
+                    className="fs-live-dot"
+                    style={{ width: 6, height: 6, borderRadius: 999, background: "#fff" }}
+                  />
+                )}
               </span>
               <span
                 style={{
-                  fontSize: 13.5,
-                  color: active ? "#fff" : done ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.38)",
-                  fontWeight: active ? 600 : 400,
+                  fontSize: 13,
+                  color: active ? "#fff" : done ? "rgba(255,255,255,0.72)" : "rgba(255,255,255,0.42)",
+                  fontWeight: active ? 600 : 450,
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -372,12 +411,13 @@ function AgentWorkingCard() {
               <span
                 style={{
                   marginLeft: "auto",
-                  fontSize: 11,
-                  color: "rgba(255,255,255,0.4)",
+                  fontSize: 10.5,
+                  color: active ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.38)",
                   whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
-                {active ? "…" : s.meta}
+                {active ? "running…" : s.meta}
               </span>
             </div>
           );
@@ -386,18 +426,20 @@ function AgentWorkingCard() {
 
       <div
         style={{
-          height: 6,
+          height: 4,
           borderRadius: 999,
           background: "rgba(255,255,255,0.12)",
           overflow: "hidden",
+          marginTop: 14,
         }}
       >
         <div
-          className="fs-progress-bar"
           style={{
             height: "100%",
+            width: `${pct}%`,
             borderRadius: 999,
-            background: "linear-gradient(90deg, rgba(255,255,255,0.55), #fff)",
+            background: "linear-gradient(90deg, rgba(255,255,255,0.5), #fff)",
+            transition: "width .6s cubic-bezier(0.22,1,0.36,1)",
           }}
         />
       </div>
@@ -407,11 +449,11 @@ function AgentWorkingCard() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          marginTop: 12,
+          marginTop: 9,
         }}
       >
-        <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 12 }}>{elapsed}</span>
-        <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 12 }}>
+        <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 11.5 }}>{elapsed}</span>
+        <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 11.5 }}>
           Close the app — it keeps going
         </span>
       </div>
@@ -425,59 +467,65 @@ function MegsyServicesStage() {
     {
       icon: Computer,
       title: "Megsy Computer",
-      meta: "A real cloud desktop: browses, clicks, types, codes and installs",
+      meta: "A real cloud desktop — browses, clicks, types and codes",
     },
     {
       icon: Hourglass,
       title: "Tasks that run for hours",
-      meta: "Start it, walk away — Megsy pings you the second it's done",
+      meta: "Start it, walk away, get pinged when it's done",
     },
     {
       icon: FolderKanban,
       title: "Finished work, not chat",
-      meta: "Reports, decks, sheets and apps delivered as real files",
+      meta: "Reports, decks and sheets delivered as real files",
     },
   ];
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <AgentWorkingCard />
 
-      {/* Service rows */}
-      {services.map((s, i) => (
-        <div
-          key={s.title}
-          className="fs-up fs-glass"
-          style={{
-            animationDelay: `${0.24 + i * 0.06}s`,
-            borderRadius: 28,
-            padding: "14px 18px",
-            display: "flex",
-            alignItems: "center",
-            gap: 14,
-          }}
-        >
-          <span
-            style={{
-              width: 42,
-              height: 42,
-              borderRadius: 16,
-              flexShrink: 0,
-              display: "grid",
-              placeItems: "center",
-              background: "rgba(255,255,255,0.1)",
-              border: "1px solid rgba(255,255,255,0.12)",
-            }}
-          >
-            <s.icon size={20} color="#fff" strokeWidth={1.8} />
-          </span>
-          <div style={{ minWidth: 0 }}>
-            <p style={{ color: "#fff", fontSize: 15, fontWeight: 600, margin: 0 }}>{s.title}</p>
-            <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 12.5, marginTop: 2, lineHeight: 1.4 }}>
-              {s.meta}
-            </p>
+      {/* One grouped card with dividers — calmer than three floating boxes */}
+      <div
+        className="fs-up fs-solid"
+        style={{ animationDelay: "0.26s", borderRadius: 24, padding: "4px 16px" }}
+      >
+        {services.map((s, i) => (
+          <div key={s.title}>
+            {i > 0 && <div className="fs-divider" style={{ margin: "0 -16px" }} />}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "13px 0" }}>
+              <span
+                style={{
+                  width: 34,
+                  height: 34,
+                  borderRadius: 12,
+                  flexShrink: 0,
+                  display: "grid",
+                  placeItems: "center",
+                  background: "rgba(255,255,255,0.10)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
+              >
+                <s.icon size={17} color="#fff" strokeWidth={1.9} />
+              </span>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ color: "#fff", fontSize: 14.5, fontWeight: 600, margin: 0, lineHeight: 1.25 }}>
+                  {s.title}
+                </p>
+                <p
+                  style={{
+                    color: "rgba(255,255,255,0.62)",
+                    fontSize: 12,
+                    marginTop: 2,
+                    lineHeight: 1.35,
+                  }}
+                >
+                  {s.meta}
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
