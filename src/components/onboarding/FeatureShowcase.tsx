@@ -673,6 +673,114 @@ function CountUp({ value, duration = 1400 }: { value: string; duration?: number 
 }
 
 
+/** Pricing panel: one clean card — offer header, plan rows, trust footnote. */
+const PRICING_FEATURES = [
+  { title: "Unlimited chat & images", meta: "Every flagship model, no daily caps" },
+  { title: "240 MC every month", meta: "Up to 40 premium videos" },
+  { title: "Agents & Megsy Computer", meta: "Research, coder, slides, background tasks" },
+];
+
+function PricingCard() {
+  return (
+    <div
+      className="fs-up fs-solid"
+      style={{ borderRadius: 26, padding: 18, animationDelay: "0.16s" }}
+    >
+      {/* offer header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 7 }}>
+          <span style={{ color: "#fff", fontSize: 44, fontWeight: 600, letterSpacing: "-0.045em", lineHeight: 1 }}>
+            $7
+          </span>
+          <span
+            style={{
+              color: "rgba(255,255,255,0.42)",
+              fontSize: 17,
+              fontWeight: 500,
+              textDecoration: "line-through",
+            }}
+          >
+            $20
+          </span>
+        </div>
+        <span
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: "0.04em",
+            color: "#8ff0bb",
+            background: "rgba(110,231,160,0.12)",
+            border: "1px solid rgba(110,231,160,0.28)",
+            borderRadius: 999,
+            padding: "5px 10px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          SAVE 65%
+        </span>
+      </div>
+      <p style={{ color: "rgba(255,255,255,0.62)", fontSize: 12.5, marginTop: 6 }}>
+        First month, then $20/month · cancel anytime
+      </p>
+
+      <div className="fs-divider" style={{ margin: "14px -18px" }} />
+
+      {/* what's included */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
+        {PRICING_FEATURES.map((f) => (
+          <div key={f.title} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+            <span
+              style={{
+                width: 17,
+                height: 17,
+                marginTop: 1,
+                flexShrink: 0,
+                borderRadius: 999,
+                display: "grid",
+                placeItems: "center",
+                background: "rgba(110,231,160,0.9)",
+              }}
+            >
+              <Check size={11} color="#08281a" strokeWidth={3.4} />
+            </span>
+            <div style={{ minWidth: 0 }}>
+              <p style={{ color: "#fff", fontSize: 14, fontWeight: 550, lineHeight: 1.25 }}>{f.title}</p>
+              <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 11.5, marginTop: 1.5, lineHeight: 1.35 }}>
+                {f.meta}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="fs-divider" style={{ margin: "14px -18px" }} />
+
+      {/* yearly option */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+        <div style={{ minWidth: 0 }}>
+          <p style={{ color: "#fff", fontSize: 13.5, fontWeight: 600 }}>Yearly · $160</p>
+          <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 11.5, marginTop: 1.5 }}>
+            4 months free, price locked for 12 months
+          </p>
+        </div>
+        <span
+          style={{
+            fontSize: 11,
+            fontWeight: 600,
+            color: "rgba(255,255,255,0.8)",
+            border: "1px solid rgba(255,255,255,0.18)",
+            borderRadius: 999,
+            padding: "5px 10px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          Best value
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /* --------------------------------- pages --------------------------------- */
 
 /**
@@ -765,54 +873,7 @@ const PAGES = [
   </Page>,
   <Page key="pricing">
     <Title heading="Everything unlocked for $7" />
-    <div
-      className="fs-up fs-glass"
-      style={{
-        borderRadius: 32,
-        padding: "28px 24px",
-        display: "flex",
-        flexDirection: "column",
-        gap: 20,
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-        <span
-          style={{
-            color: "rgba(255,255,255,0.45)",
-            fontSize: 22,
-            fontWeight: 500,
-            textDecoration: "line-through",
-          }}
-        >
-          $20
-        </span>
-        <span
-          style={{
-            color: "#fff",
-            fontSize: 56,
-            fontWeight: 600,
-            letterSpacing: "-0.04em",
-            lineHeight: 1,
-          }}
-        >
-          $7
-        </span>
-        <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 15, fontWeight: 500 }}>
-          first month
-        </span>
-      </div>
-      <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, lineHeight: 1.5, margin: 0 }}>
-        Megsy Pro for $7 your first month, then $20/month. Every model, every agent — cancel anytime.
-      </p>
-      <ListRows
-        rows={[
-          { title: "Unlimited chat & images", meta: "Every flagship model, no daily caps" },
-          { title: "240 MC every month", meta: "Up to 40 premium videos + free unlimited models" },
-          { title: "Agents & Megsy Computer", meta: "Research, coder, slides, docs, background tasks" },
-          { title: "Yearly: $160 — 4 months free", meta: "Price locked for 12 months, cancel anytime" },
-        ]}
-      />
-    </div>
+    <PricingCard />
   </Page>,
   <Page key="community">
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
