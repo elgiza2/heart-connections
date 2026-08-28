@@ -921,6 +921,16 @@ const PricingPage = () => {
                     </p>
                   )}
 
+                  {/* Yearly maths spelled out so the offer never looks contradictory:
+                      12 months billed at the price of 8. */}
+                  {isYearly && rawPrice > 0 && (
+                    <p className="text-[10px] uppercase text-foreground/70 mt-2 font-light" style={{ letterSpacing: "0.18em" }}>
+                      ≈ ${Math.round(p.yearlyPrice / 12)}/month · pay {12 - YEARLY_FREE_MONTHS} months, get 12
+                    </p>
+                  )}
+
+
+
 
 
                   {credits && (
