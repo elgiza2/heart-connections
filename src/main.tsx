@@ -10,7 +10,25 @@ const loadMotionFeatures = () => import("framer-motion").then((m) => m.domMax);
 // Start fetching the chat chunk in parallel with app boot. `/`, `/index` and
 // `/chat` all render ChatPage, so by the time the router mounts the chunk is
 // usually already in memory — no route-level loading state is ever painted.
-void import("@/pages/chat/ChatPage");
+// First visit ever → show the onboarding showcase instead of the chat.
+// Runs before the router mounts so no chat frame is ever painted first.
+const __firstVisitWelcome = (() => {
+  try {
+    if (typeof window === "undefined") return false;
+    const p = window.location.pathname;
+    if (p !== "/" && p !== "/index" && p !== "/chat") return false;
+    if (window.innerWidth >= 900) return false;
+    if (localStorage.getItem("megsy_seen_welcome")) return false;
+    localStorage.setItem("megsy_seen_welcome", "1");
+    window.history.replaceState(window.history.state, "", "/welcome");
+    return true;
+  } catch {
+    return false;
+  }
+})();
+
+if (!__firstVisitWelcome) void import("@/pages/chat/ChatPage");
+else void import("@/pages/onboarding/WelcomeShowcasePage");
 import App from "./App.tsx";
 import { installTapReliability } from "@/lib/tapReliability";
 import ClerkGate from "@/components/auth/ClerkGate";
