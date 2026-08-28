@@ -62,6 +62,16 @@ const CSS = `
   mask-composite: exclude;
   pointer-events: none;
 }
+/* Solid, high-contrast surface used by the hero + pricing panels. */
+.fs-solid {
+  position: relative;
+  background: linear-gradient(180deg, rgba(12,16,22,0.60) 0%, rgba(12,16,22,0.48) 100%);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 18px 46px -22px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.10);
+}
+.fs-divider { height: 1px; background: rgba(255,255,255,0.09); }
 .fs-glass-selected {
   background: rgba(255,255,255,0.12);
   backdrop-filter: blur(8px);
