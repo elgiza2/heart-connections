@@ -28,6 +28,12 @@ const OUTPUT = [
   "✓ site is live — files ready",
 ];
 
+const ARTIFACTS = [
+  { label: "site.zip", tint: "rgba(143,240,187,0.18)", ring: "rgba(143,240,187,0.45)" },
+  { label: "logo.svg", tint: "rgba(255,182,208,0.18)", ring: "rgba(255,182,208,0.45)" },
+  { label: "4 images", tint: "rgba(147,197,253,0.18)", ring: "rgba(147,197,253,0.45)" },
+];
+
 const CSS = `
 @keyframes asWalk {
   0%   { transform: translateX(-8px); }
