@@ -592,21 +592,177 @@ const ToolsMock = () => {
 };
 
 
+/** Megsy Computer — a cloud desktop the agent drives itself. */
+const COMPUTER_STEPS = [
+  "opening chrome…",
+  "signing in to the dashboard",
+  "exporting Q3 report.csv",
+  "uploading to your workspace",
+];
+
+const ComputerMock = () => {
+  const i = useSequence(COMPUTER_STEPS.length - 1, 1500) % COMPUTER_STEPS.length;
+  return (
+    <div style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,255,255,.12)", background: "rgba(0,0,0,.28)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 12px", borderBottom: "1px solid rgba(255,255,255,.10)" }}>
+        {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
+          <span key={c} style={{ width: 9, height: 9, borderRadius: 999, background: c, opacity: 0.85 }} />
+        ))}
+        <span style={{ marginLeft: 8, fontSize: 11.5, color: "rgba(255,255,255,.55)" }}>megsy-computer · cloud</span>
+      </div>
+      <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 10, minHeight: 150 }}>
+        <div style={{ height: 26, borderRadius: 999, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", padding: "0 12px", gap: 8 }}>
+          <Globe size={13} color="rgba(255,255,255,.6)" />
+          <div style={{ height: 6, borderRadius: 4, width: "48%", background: "rgba(255,255,255,.22)" }} />
+        </div>
+        <div style={{ position: "relative", flex: 1, borderRadius: 12, background: "rgba(255,255,255,.05)", overflow: "hidden", minHeight: 62 }}>
+          <div className="sv-scan" />
+          <div style={{ padding: 12, display: "flex", flexDirection: "column", gap: 7 }}>
+            <Lines widths={[88, 64, 76]} />
+          </div>
+          <MousePointer2
+            size={16}
+            color="#fff"
+            className="sv-slide"
+            style={{ position: "absolute", right: 22, bottom: 14 }}
+          />
+        </div>
+        <div style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 12, color: "rgba(255,255,255,.78)" }}>
+          <span style={{ color: "rgba(255,255,255,.4)" }}>$ </span>
+          {COMPUTER_STEPS[i]}
+          <span className="sv-caret" style={{ marginLeft: 4 }} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/** Parallel agents working at once on one goal. */
+const AGENT_LANES = [
+  { t: "Researcher", s: "reading 40 sources", w: 86 },
+  { t: "Analyst", s: "crunching the data", w: 64 },
+  { t: "Writer", s: "drafting the report", w: 42 },
+  { t: "Designer", s: "building the deck", w: 28 },
+];
+
+const AgentsMock = () => (
+  <div style={{ display: "flex", flexDirection: "column", gap: 10, minHeight: 150 }}>
+    {AGENT_LANES.map((a, i) => (
+      <div
+        key={a.t}
+        className="sv-in"
+        style={{
+          animationDelay: `${0.06 + i * 0.08}s`,
+          padding: "11px 13px",
+          borderRadius: 14,
+          background: "rgba(255,255,255,.05)",
+          border: "1px solid rgba(255,255,255,.12)",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+          <span className="sv-dotpulse" style={{ width: 6, height: 6, borderRadius: 999, background: "#6ee7a0", animationDelay: `${i * 0.2}s` }} />
+          <span style={{ fontSize: 12.5, fontWeight: 600, color: "#fff" }}>{a.t}</span>
+          <span style={{ marginLeft: "auto", fontSize: 11.5, color: "rgba(255,255,255,.5)" }}>{a.s}</span>
+        </div>
+        <div className="sv-row">
+          <i style={{ ["--w" as string]: `${a.w}%`, animationDelay: `${i * 0.12}s` }} />
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+/** Skills — reusable instructions the agent runs on command. */
+const SKILLS = [
+  { t: "Weekly investor update", s: "runs every Monday" },
+  { t: "Competitor watch", s: "12 sites · daily" },
+  { t: "Invoice → sheet", s: "on upload" },
+];
+
+const SkillsMock = () => (
+  <div style={{ display: "flex", flexDirection: "column", gap: 10, minHeight: 150 }}>
+    {SKILLS.map((s, i) => (
+      <div
+        key={s.t}
+        className="sv-in"
+        style={{
+          animationDelay: `${0.08 + i * 0.1}s`,
+          display: "flex",
+          alignItems: "center",
+          gap: 11,
+          padding: "13px 13px",
+          borderRadius: 16,
+          background: "rgba(255,255,255,.05)",
+          border: "1px solid rgba(255,255,255,.12)",
+        }}
+      >
+        <span style={{ width: 32, height: 32, borderRadius: 11, display: "grid", placeItems: "center", background: "rgba(255,255,255,.10)" }}>
+          <Sparkles size={15} color="#fff" strokeWidth={1.8} />
+        </span>
+        <span style={{ minWidth: 0 }}>
+          <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#fff" }}>{s.t}</span>
+          <span style={{ display: "block", fontSize: 11.5, color: "rgba(255,255,255,.55)", marginTop: 2 }}>{s.s}</span>
+        </span>
+        <span style={{ marginLeft: "auto", fontSize: 11, color: "rgba(255,255,255,.45)" }}>auto</span>
+      </div>
+    ))}
+  </div>
+);
+
+/** Memory — what Megsy remembers about you. */
+const MEMORY_FACTS = [
+  "Writes in British English",
+  "Works on Megsy, a B2C AI app",
+  "Prefers short, direct answers",
+  "Reports due every Sunday night",
+];
+
+const MemoryMock = () => (
+  <div style={{ display: "flex", flexDirection: "column", gap: 10, minHeight: 150 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+      <Brain size={16} color="#fff" strokeWidth={1.8} />
+      <span style={{ fontSize: 12.5, color: "rgba(255,255,255,.7)" }}>Remembered about you</span>
+    </div>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+      {MEMORY_FACTS.map((f, i) => (
+        <span
+          key={f}
+          className="sv-in"
+          style={{
+            animationDelay: `${0.08 + i * 0.09}s`,
+            padding: "9px 13px",
+            borderRadius: 999,
+            fontSize: 12.5,
+            color: "rgba(255,255,255,.85)",
+            background: "rgba(255,255,255,.06)",
+            border: "1px solid rgba(255,255,255,.14)",
+          }}
+        >
+          {f}
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
 /* -------------------------------- services -------------------------------- */
 
 const SERVICES = [
   { id: "chat", note: "One chat, every model.", label: "Chat", icon: MessageSquare, headline: "Chat with every model", desc: "Ask anything and switch models mid-conversation. Your context stays.", Mock: ChatMock },
+  { id: "computer", note: "An agent with its own PC.", label: "Megsy Computer", icon: Monitor, headline: "A cloud computer that works for you", desc: "Megsy opens a real browser and desktop, clicks, types, runs code and hands you the finished files.", Mock: ComputerMock },
+  { id: "agents", note: "Many agents, one goal.", label: "Parallel agents", icon: Layers, headline: "Agents that run for hours", desc: "Several agents work side by side in the background. Close the app — Megsy keeps going and pings you when it's done.", Mock: AgentsMock },
   { id: "research", note: "Sourced reports, not guesses.", label: "Deep Research", icon: Telescope, headline: "Deep research with sources", desc: "Give a topic. Megsy reads dozens of pages and returns a report with links you can check.", Mock: ResearchMock },
-  { id: "learn", note: "Lessons at your own pace.", label: "Learning", icon: GraduationCap, headline: "Learn step by step", desc: "Any subject explained simply, with examples and short quizzes to test yourself.", Mock: LearnMock },
-  { id: "docs", note: "Ready-to-send documents.", label: "Docs", icon: FileText, headline: "Write full documents", desc: "Reports, emails and long articles written and formatted, ready to edit or export.", Mock: DocsMock },
-  { id: "images", note: "Make and edit images.", label: "Images", icon: ImageIcon, headline: "Create and edit images", desc: "Describe an image and get several versions, or upload one and change it.", Mock: ImagesMock },
-  { id: "video", note: "A prompt becomes a clip.", label: "Video", icon: Clapperboard, headline: "Turn text into video", desc: "Write a scene and get a short clip. Top video models, all in one place.", Mock: VideoMock },
-  { id: "code", note: "Write, run and ship code.", label: "Coder", icon: Code2, headline: "Build real software", desc: "Megsy plans the work, writes the code, runs it and shows you the result.", Mock: CodeMock },
-  { id: "slides", note: "A full deck from one prompt.", label: "Slides", icon: Presentation, headline: "Presentations in one prompt", desc: "Outline, slide design and speaker notes, ready to present or export.", Mock: SlidesMock },
+  { id: "code", note: "Write, run and ship code.", label: "Coder", icon: Code2, headline: "Build and deploy real apps", desc: "Megsy plans the work, writes the code, runs it and deploys it in one click.", Mock: CodeMock },
+  { id: "images", note: "Unlimited image generation.", label: "Images", icon: ImageIcon, headline: "Create and edit images", desc: "Describe an image and get several versions, or upload one and restyle it. No caps on Pro.", Mock: ImagesMock },
+  { id: "video", note: "A prompt becomes a clip.", label: "Video", icon: Clapperboard, headline: "Turn text into video", desc: "Write a scene and get a clip. Premium and free video models, all in one place.", Mock: VideoMock },
+  { id: "slides", note: "A full deck from one prompt.", label: "Slides", icon: Presentation, headline: "Presentations in one prompt", desc: "Outline, slide design and speaker notes, ready to present or export to PPTX.", Mock: SlidesMock },
+  { id: "docs", note: "Ready-to-send documents.", label: "Docs", icon: FileText, headline: "Write full documents", desc: "Reports, emails and long articles written and formatted, export to PDF or Word.", Mock: DocsMock },
   { id: "sheets", note: "Sheets, reports and resumes.", label: "Sheets & Resume", icon: FileSpreadsheet, headline: "Sheets, reports and resumes", desc: "Turn raw numbers or your history into clean files you can download.", Mock: SheetMock },
+  { id: "skills", note: "Teach Megsy your routine.", label: "Skills", icon: Sparkles, headline: "Skills that repeat your work", desc: "Save any workflow as a skill and let Megsy run it on schedule or on demand.", Mock: SkillsMock },
+  { id: "memory", note: "It remembers you.", label: "Memory", icon: Brain, headline: "Megsy remembers your context", desc: "Your style, projects and preferences carry over to every new chat — you never repeat yourself.", Mock: MemoryMock },
+  { id: "learn", note: "Lessons at your own pace.", label: "Learning", icon: GraduationCap, headline: "Learn step by step", desc: "Any subject explained simply, with examples and short quizzes to test yourself.", Mock: LearnMock },
   { id: "apps", note: "Your apps, inside the chat.", label: "Integrations", icon: Plug, headline: "Connect your apps", desc: "Link Gmail, Slack, Notion, Drive, GitHub and more so Megsy works with your real data.", Mock: AppsMock },
   { id: "tools", note: "Built-in tools, no setup.", label: "In-chat tools", icon: Wrench, headline: "Tools inside the chat", desc: "Web search, file reading, a code runner, canvas and memory — always one tap away.", Mock: ToolsMock },
-
 ];
 
 
