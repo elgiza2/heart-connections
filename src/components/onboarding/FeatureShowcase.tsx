@@ -148,8 +148,8 @@ function Badge({ label }: { label: string }) {
         alignItems: "center",
         gap: 8,
         borderRadius: 999,
-        padding: "10px 12px",
-        marginBottom: 32,
+        padding: "9px 12px",
+        marginBottom: 18,
       }}
     >
       <Timer size={12} color="rgba(255,255,255,0.8)" />
@@ -160,16 +160,16 @@ function Badge({ label }: { label: string }) {
 
 function Title({ kicker, heading }: { kicker?: string; heading: string }) {
   return (
-    <div className="fs-up" style={{ animationDelay: "0.14s", marginBottom: 28 }}>
+    <div className="fs-up" style={{ animationDelay: "0.14s", marginBottom: 18 }}>
       {kicker && (
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, marginBottom: 10 }}>{kicker}</p>
       )}
       <h2
         style={{
           color: "#fff",
-          fontSize: 32,
+          fontSize: 27,
           fontWeight: 400,
-          lineHeight: 1.08,
+          lineHeight: 1.12,
           letterSpacing: "-0.03em",
         }}
       >
@@ -638,7 +638,7 @@ function Page({ children }: { children: import("react").ReactNode }) {
       const avail = box.clientHeight;
       const natural = inner.scrollHeight;
       if (!avail || !natural) return;
-      const next = Math.min(1, Math.max(0.62, (avail - 4) / natural));
+      const next = Math.min(1, Math.max(0.8, (avail - 4) / natural));
       setScale((prev) => (Math.abs(prev - next) > 0.005 ? next : prev));
     };
     const schedule = () => {
@@ -667,7 +667,7 @@ function Page({ children }: { children: import("react").ReactNode }) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: "56px 22px 150px",
+        padding: "40px 20px 128px",
       }}
     >
       <div

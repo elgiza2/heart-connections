@@ -816,7 +816,7 @@ export default function ServicesStage() {
 
       <div
         className="fs-glass"
-        style={{ borderRadius: 30, padding: 20, minHeight: 316, display: "flex", flexDirection: "column", gap: 16, overflow: "hidden" }}
+        style={{ borderRadius: 28, padding: 18, minHeight: 286, display: "flex", flexDirection: "column", gap: 16, overflow: "hidden" }}
       >
         <div key={`h-${active.id}`} className="sv-in" style={{ display: "flex", alignItems: "center", gap: 11 }}>
           <div style={{ minWidth: 0 }}>
