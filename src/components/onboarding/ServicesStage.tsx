@@ -351,26 +351,25 @@ const ImagesMock = () => {
               }}
             >
               {!on && <div className="sv-scan" />}
+              <span
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  padding: "10px 6px 5px",
+                  fontSize: 9.5,
+                  lineHeight: 1.1,
+                  textAlign: "center",
+                  color: "rgba(255,255,255,.95)",
+                  background: "linear-gradient(180deg, transparent, rgba(0,0,0,.42))",
+                }}
+              >
+                {s.label}
+              </span>
             </div>
           );
         })}
-      </div>
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-        {IMAGE_SHOTS.map((s) => (
-          <span
-            key={s.label}
-            style={{
-              fontSize: 10.5,
-              color: "rgba(255,255,255,.72)",
-              padding: "4px 9px",
-              borderRadius: 999,
-              background: "rgba(255,255,255,.06)",
-              border: "1px solid rgba(255,255,255,.14)",
-            }}
-          >
-            {s.label}
-          </span>
-        ))}
       </div>
     </div>
   );
