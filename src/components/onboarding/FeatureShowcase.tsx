@@ -4,7 +4,7 @@
  * Horizontal scroll-snap pager with dots. Pure presentation.
  */
 import { useEffect, useRef, useState } from "react";
-import { Timer, ChevronRight, ChevronLeft, Computer, FolderKanban, Hourglass } from "lucide-react";
+import { Timer, ChevronRight, ChevronLeft, Check, Computer, FolderKanban, Hourglass } from "lucide-react";
 import { BrandIcon, hasBrandIcon } from "@/components/chat/media/BrandIcon";
 import { RatingBadge } from "@/components/foundations/rating-badge";
 import ServicesStage from "./ServicesStage";
@@ -275,51 +275,162 @@ function ModelMarquee() {
   );
 }
 
-/** First panel: what Megsy actually does for you — computer, workspace, long tasks. */
+/** Steps the agent walks through inside its own computer. */
+const AGENT_STEPS = [
+  { label: "Opened a cloud browser", meta: "chrome · logged in" },
+  { label: "Pulled 40 sources & 3 dashboards", meta: "read + compared" },
+  { label: "Ran the numbers in a sheet", meta: "python · 1.2k rows" },
+  { label: "Writing the final report", meta: "12 pages · with charts" },
+];
+
+/** Live terminal-ish agent card: Megsy working on its own computer for hours. */
+function AgentWorkingCard() {
+  const [step, setStep] = useState(1);
+  const [mins, setMins] = useState(74);
+
+  useEffect(() => {
+    const t = setInterval(() => setStep((s) => (s >= AGENT_STEPS.length ? 1 : s + 1)), 2200);
+    const m = setInterval(() => setMins((v) => v + 1), 4000);
+    return () => {
+      clearInterval(t);
+      clearInterval(m);
+    };
+  }, []);
+
+  const hours = Math.floor(mins / 60);
+  const elapsed = `${hours}h ${String(mins % 60).padStart(2, "0")}m running`;
+
+  return (
+    <div
+      className="fs-up fs-glass"
+      style={{ animationDelay: "0.14s", borderRadius: 28, padding: "18px 20px" }}
+    >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+          <span
+            className="fs-live-dot"
+            style={{ width: 8, height: 8, borderRadius: 999, background: "#6ee7a0" }}
+          />
+          <span style={{ color: "#fff", fontSize: 14, fontWeight: 600 }}>Megsy Agent</span>
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 500,
+              color: "rgba(255,255,255,0.65)",
+              border: "1px solid rgba(255,255,255,0.18)",
+              borderRadius: 999,
+              padding: "2px 8px",
+            }}
+          >
+            on its own computer
+          </span>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 9, margin: "14px 0 14px" }}>
+        {AGENT_STEPS.map((s, i) => {
+          const done = i < step - 1;
+          const active = i === step - 1;
+          return (
+            <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span
+                style={{
+                  width: 16,
+                  height: 16,
+                  flexShrink: 0,
+                  borderRadius: 999,
+                  display: "grid",
+                  placeItems: "center",
+                  background: done ? "rgba(110,231,160,0.9)" : "transparent",
+                  border: done ? "none" : "1.5px solid rgba(255,255,255,0.35)",
+                }}
+              >
+                {done && <Check size={11} color="#0a2a18" strokeWidth={3} />}
+              </span>
+              <span
+                style={{
+                  fontSize: 13.5,
+                  color: active ? "#fff" : done ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.38)",
+                  fontWeight: active ? 600 : 400,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {s.label}
+              </span>
+              <span
+                style={{
+                  marginLeft: "auto",
+                  fontSize: 11,
+                  color: "rgba(255,255,255,0.4)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {active ? "…" : s.meta}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div
+        style={{
+          height: 6,
+          borderRadius: 999,
+          background: "rgba(255,255,255,0.12)",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          className="fs-progress-bar"
+          style={{
+            height: "100%",
+            borderRadius: 999,
+            background: "linear-gradient(90deg, rgba(255,255,255,0.55), #fff)",
+          }}
+        />
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: 12,
+        }}
+      >
+        <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 12 }}>{elapsed}</span>
+        <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 12 }}>
+          Close the app — it keeps going
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/** First panel: Megsy is an agent with a computer that works for hours. */
 function MegsyServicesStage() {
   const services: Array<{ icon: import("lucide-react").LucideIcon; title: string; meta: string }> = [
-    { icon: Computer, title: "Megsy Computer", meta: "A cloud desktop that clicks, types and builds for you" },
-    { icon: FolderKanban, title: "Your workspace", meta: "Files, docs, slides and code — all in one place" },
-    { icon: Hourglass, title: "Long-running tasks", meta: "Hours of work, done while you live your life" },
+    {
+      icon: Computer,
+      title: "Megsy Computer",
+      meta: "A real cloud desktop: browses, clicks, types, codes and installs",
+    },
+    {
+      icon: Hourglass,
+      title: "Tasks that run for hours",
+      meta: "Start it, walk away — Megsy pings you the second it's done",
+    },
+    {
+      icon: FolderKanban,
+      title: "Finished work, not chat",
+      meta: "Reports, decks, sheets and apps delivered as real files",
+    },
   ];
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      {/* Live task card */}
-      <div
-        className="fs-up fs-glass"
-        style={{ animationDelay: "0.14s", borderRadius: 28, padding: "18px 20px" }}
-      >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span
-              className="fs-live-dot"
-              style={{ width: 8, height: 8, borderRadius: 999, background: "#6ee7a0" }}
-            />
-            <span style={{ color: "#fff", fontSize: 14, fontWeight: 600 }}>Megsy is working</span>
-          </div>
-          <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 12 }}>12 min elapsed</span>
-        </div>
-        <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 14, lineHeight: 1.5, margin: "12px 0 14px" }}>
-          Researching 40 sources, comparing competitors and writing your report…
-        </p>
-        <div
-          style={{
-            height: 6,
-            borderRadius: 999,
-            background: "rgba(255,255,255,0.12)",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            className="fs-progress-bar"
-            style={{
-              height: "100%",
-              borderRadius: 999,
-              background: "linear-gradient(90deg, rgba(255,255,255,0.55), #fff)",
-            }}
-          />
-        </div>
-      </div>
+      <AgentWorkingCard />
 
       {/* Service rows */}
       {services.map((s, i) => (
@@ -529,7 +640,7 @@ function Page({ children }: { children: import("react").ReactNode }) {
 
 const PAGES = [
   <Page key="chat">
-    <Title heading="Megsy does the work, not just the talking." />
+    <Title heading="An AI agent with its own computer." />
     <MegsyServicesStage />
   </Page>,
   <Page key="services">
@@ -537,7 +648,7 @@ const PAGES = [
     <ServicesStage />
   </Page>,
   <Page key="pricing">
-    <Title heading="All tools & models for $5" />
+    <Title heading="Everything unlocked for $7" />
     <div
       className="fs-up fs-glass"
       style={{
@@ -551,6 +662,16 @@ const PAGES = [
       <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
         <span
           style={{
+            color: "rgba(255,255,255,0.45)",
+            fontSize: 22,
+            fontWeight: 500,
+            textDecoration: "line-through",
+          }}
+        >
+          $20
+        </span>
+        <span
+          style={{
             color: "#fff",
             fontSize: 56,
             fontWeight: 600,
@@ -558,20 +679,21 @@ const PAGES = [
             lineHeight: 1,
           }}
         >
-          $5
+          $7
         </span>
         <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 15, fontWeight: 500 }}>
           first month
         </span>
       </div>
       <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, lineHeight: 1.5, margin: 0 }}>
-        Get every AI model, agent and workflow in one subscription. No hidden fees, cancel anytime.
+        Megsy Pro for $7 your first month, then $20/month. Every model, every agent — cancel anytime.
       </p>
       <ListRows
         rows={[
-          { title: "All flagship models", meta: "GPT-5.6, Claude Opus 5, Gemini 3.6, Llama 4" },
-          { title: "40+ agents unlocked", meta: "Research, coder, images, video, slides" },
-          { title: "Full access for $5", meta: "No limits, no hidden fees, cancel anytime" },
+          { title: "Unlimited chat & images", meta: "Every flagship model, no daily caps" },
+          { title: "240 MC every month", meta: "Up to 40 premium videos + free unlimited models" },
+          { title: "Agents & Megsy Computer", meta: "Research, coder, slides, docs, background tasks" },
+          { title: "Yearly: $160 — 4 months free", meta: "Price locked for 12 months, cancel anytime" },
         ]}
       />
     </div>
