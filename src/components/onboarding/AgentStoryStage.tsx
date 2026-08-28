@@ -320,6 +320,29 @@ export default function AgentStoryStage() {
               Megsy writes the work in front of you.
             </p>
           )}
+
+          {outLines >= OUTPUT.length && (
+            <div style={{ display: "flex", gap: 6, marginTop: 4, flexWrap: "wrap" }}>
+              {ARTIFACTS.map((a, i) => (
+                <span
+                  key={a.label}
+                  className="as-pop"
+                  style={{
+                    animationDelay: `${i * 0.12}s`,
+                    fontSize: 10.5,
+                    fontWeight: 600,
+                    color: "#fff",
+                    padding: "4px 9px",
+                    borderRadius: 999,
+                    background: a.tint,
+                    border: `1px solid ${a.ring}`,
+                  }}
+                >
+                  {a.label}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
