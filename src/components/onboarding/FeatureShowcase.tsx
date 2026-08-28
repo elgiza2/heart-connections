@@ -674,10 +674,22 @@ function CountUp({ value, duration = 1400 }: { value: string; duration?: number 
 }
 
 
-/** Pricing panel: one clean card — offer header, plan rows, trust footnote. */
+/**
+ * Pricing panel. All numbers come from the single pricing source of truth so
+ * the onboarding offer can never drift from /pricing:
+ *   Pro — $20/month · $7 first month · $160/year (= 8 months paid, 4 free).
+ */
+const PRO = getPlan("pro")!;
+const PRO_MONTHLY = PRO.monthlyPrice;            // 20
+const PRO_FIRST = PRO.firstMonthPrice ?? PRO_MONTHLY; // 7
+const PRO_YEARLY = PRO.yearlyPrice;              // 160
+const PRO_YEARLY_PER_MONTH = Math.round(PRO_YEARLY / 12); // 13
+const PRO_YEARLY_SAVE = PRO_MONTHLY * 12 - PRO_YEARLY;    // 80
+const PRO_FIRST_OFF = Math.round((1 - PRO_FIRST / PRO_MONTHLY) * 100); // 65
+
 const PRICING_FEATURES = [
   { title: "Unlimited chat & images", meta: "Every flagship model, no daily caps" },
-  { title: "240 MC every month", meta: "Up to 40 premium videos" },
+  { title: `${PLAN_MONTHLY_CREDITS.pro} MC every month`, meta: "Up to 40 premium videos" },
   { title: "Agents & Megsy Computer", meta: "Research, coder, slides, background tasks" },
 ];
 
@@ -691,17 +703,17 @@ function PricingCard() {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 7 }}>
           <span style={{ color: "#fff", fontSize: 44, fontWeight: 600, letterSpacing: "-0.045em", lineHeight: 1 }}>
-            $7
+            ${PRO_FIRST}
           </span>
           <span
             style={{
-              color: "rgba(255,255,255,0.42)",
+              color: "rgba(255,255,255,0.5)",
               fontSize: 17,
               fontWeight: 500,
               textDecoration: "line-through",
             }}
           >
-            $20
+            ${PRO_MONTHLY}
           </span>
         </div>
         <span
@@ -709,19 +721,19 @@ function PricingCard() {
             fontSize: 11,
             fontWeight: 700,
             letterSpacing: "0.04em",
-            color: "#8ff0bb",
-            background: "rgba(110,231,160,0.12)",
-            border: "1px solid rgba(110,231,160,0.28)",
+            color: "#9df3c5",
+            background: "rgba(110,231,160,0.14)",
+            border: "1px solid rgba(110,231,160,0.32)",
             borderRadius: 999,
             padding: "5px 10px",
             whiteSpace: "nowrap",
           }}
         >
-          SAVE 65%
+          SAVE {PRO_FIRST_OFF}%
         </span>
       </div>
-      <p style={{ color: "rgba(255,255,255,0.62)", fontSize: 12.5, marginTop: 6 }}>
-        First month, then $20/month · cancel anytime
+      <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 12.5, marginTop: 6 }}>
+        Your first month of Pro · renews at ${PRO_MONTHLY}/month · cancel anytime
       </p>
 
       <div className="fs-divider" style={{ margin: "14px -18px" }} />
@@ -739,14 +751,14 @@ function PricingCard() {
                 borderRadius: 999,
                 display: "grid",
                 placeItems: "center",
-                background: "rgba(110,231,160,0.9)",
+                background: "rgba(130,240,180,0.95)",
               }}
             >
               <Check size={11} color="#08281a" strokeWidth={3.4} />
             </span>
             <div style={{ minWidth: 0 }}>
-              <p style={{ color: "#fff", fontSize: 14, fontWeight: 550, lineHeight: 1.25 }}>{f.title}</p>
-              <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 11.5, marginTop: 1.5, lineHeight: 1.35 }}>
+              <p style={{ color: "#fff", fontSize: 14, fontWeight: 600, lineHeight: 1.25 }}>{f.title}</p>
+              <p style={{ color: "rgba(255,255,255,0.62)", fontSize: 11.5, marginTop: 1.5, lineHeight: 1.35 }}>
                 {f.meta}
               </p>
             </div>
@@ -756,20 +768,24 @@ function PricingCard() {
 
       <div className="fs-divider" style={{ margin: "14px -18px" }} />
 
-      {/* yearly option */}
+      {/* yearly option — explicitly priced off the regular $20/month rate */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
         <div style={{ minWidth: 0 }}>
-          <p style={{ color: "#fff", fontSize: 13.5, fontWeight: 600 }}>Yearly · $160</p>
-          <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 11.5, marginTop: 1.5 }}>
-            4 months free, price locked for 12 months
+          <p style={{ color: "#fff", fontSize: 13.5, fontWeight: 600 }}>
+            Or yearly · ${PRO_YEARLY} <span style={{ fontWeight: 400, color: "rgba(255,255,255,0.68)" }}>
+              (≈ ${PRO_YEARLY_PER_MONTH}/mo)
+            </span>
+          </p>
+          <p style={{ color: "rgba(255,255,255,0.62)", fontSize: 11.5, marginTop: 1.5 }}>
+            Pay 8 months, get 12 — saves ${PRO_YEARLY_SAVE} vs ${PRO_MONTHLY}/month
           </p>
         </div>
         <span
           style={{
             fontSize: 11,
             fontWeight: 600,
-            color: "rgba(255,255,255,0.8)",
-            border: "1px solid rgba(255,255,255,0.18)",
+            color: "rgba(255,255,255,0.85)",
+            border: "1px solid rgba(255,255,255,0.24)",
             borderRadius: 999,
             padding: "5px 10px",
             whiteSpace: "nowrap",
