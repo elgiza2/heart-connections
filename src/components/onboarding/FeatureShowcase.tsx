@@ -8,6 +8,7 @@ import { Timer, ChevronRight, ChevronLeft, Check, Computer, FolderKanban, Hourgl
 import { BrandIcon, hasBrandIcon } from "@/components/chat/media/BrandIcon";
 import { RatingBadge } from "@/components/foundations/rating-badge";
 import ServicesStage from "./ServicesStage";
+import AgentStoryStage from "./AgentStoryStage";
 import { getPlan, PLAN_MONTHLY_CREDITS } from "@/data/pricingData";
 import {
   MODEL_ROWS,
@@ -882,8 +883,8 @@ function Page({ children }: { children: import("react").ReactNode }) {
 
 const PAGES = [
   <Page key="chat">
-    <Title heading="An AI agent with its own computer." />
-    <MegsyServicesStage />
+    <Title heading="Tell Megsy once. It does the whole job." />
+    <AgentStoryStage />
   </Page>,
   <Page key="services">
     <Title heading="One app, every AI workflow" />
